@@ -16,12 +16,14 @@ Set-MpPreference -SubmitSamplesConsent NeverSend
 choco feature enable -n allowGlobalConfirmation
 choco install 7zip
 choco install git
-## choco install googlechrome --ignore-checksums
+choco install googlechrome --ignore-checksums
 choco install heidisql --version=10.2.0.559900
 choco install openjdk11
 choco install putty
 choco install sysinternals --params "/InstallDir:C:\tools\sysinternals"
-##choco install vscode
+choco install vscode
+choco install processhacker
+choco install apimonitor
 
 # GitHub
 Invoke-WebRequest -Uri https://github.com/dnSpy/dnSpy/releases/latest/download/dnSpy-netframework.zip -OutFile "$env:TEMP\dnSpy-netframework.zip"
@@ -48,6 +50,15 @@ git clone https://github.com/tevora-threat/SharpView.git C:\tools\SharpView
 git clone https://github.com/TheWover/donut.git C:\tools\donut
 git clone https://github.com/ZeroPointSecurity/PhishingTemplates.git C:\tools\PhishingTemplates
 
+git clone https://github.com/rasta-mouse/ThreatCheck.git C:\tools\ThreatCheck
+git clone https://github.com/optiv/ScareCrow.git C:\tools\ScareCrow
+git clone https://github.com/GhostPack/SharpWMI.git C:\tools\SharpWMI
+git clone https://github.com/GhostPack/Rubeus.git C:\tools\Rubeus
+git clone https://github.com/PowerShell/GPRegistryPolicy.git C:\tools\GPRegistryPolicy
+git clone https://github.com/GhostPack/SafetyKatz.git C:\tools\SafetyKatz
+git clone https://github.com/Flangvik/BetterSafetyKatz.git C:\tools\BetterSafetyKatz
+git clone https://github.com/rasta-mouse/AmsiScanBufferBypass.git C:\tools\AmsiScanBufferBypass
+git clone https://github.com/FatRodzianko/SharpBypassUAC.git C:\tools\SharpBypassUAC
 
 # IE first run
 New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Internet Explorer"
