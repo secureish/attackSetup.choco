@@ -25,6 +25,11 @@ choco install vscode
 choco install processhacker
 choco install apimonitor
 
+cinst wireshark
+cinst regshot
+cinst -ignore-checksum registrychangesview
+cinst sqlitebrowser
+
 # GitHub
 Invoke-WebRequest -Uri https://github.com/dnSpy/dnSpy/releases/latest/download/dnSpy-netframework.zip -OutFile "$env:TEMP\dnSpy-netframework.zip"
 Expand-Archive -Path "$env:TEMP\dnSpy-netframework.zip" -DestinationPath C:\tools\dnSpy
@@ -100,12 +105,61 @@ Set-WindowsExplorerOptions -EnableShowFileExtensions -EnableShowFullPathInTitleB
 Install-ChocolateyShortcut -shortcutFilePath "C:\Users\Public\Desktop\tools.lnk" -targetPath C:\tools\
 Install-ChocolateyShortcut -shortcutFilePath "C:\Users\Public\Desktop\Neo4j.lnk" -targetPath "C:\tools\Neo4j\bin\neo4j.bat" -arguments "console" -runAsAdmin
 
-New-Item -Path C:\ -Name BGInfo -ItemType Directory -ErrorAction SilentlyContinue
-Invoke-WebRequest -Uri 'https://github.com/ZeroPointSecurity/RTOVMSetup/raw/master/wallpaper.jpg' -OutFile "C:\BGInfo\wallpaper.jpg"
-Invoke-WebRequest -Uri 'https://github.com/ZeroPointSecurity/RTOVMSetup/raw/master/bginfo.bgi' -OutFile "C:\BGInfo\bginfo.bgi"
-New-ItemProperty -Path HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Run\ -Name BGInfo -Value "C:\tools\sysinternals\Bginfo64.exe /accepteula /iC:\BGInfo\bginfo.bgi /timer:0"
-
 # Misc
 $DesktopPath = [Environment]::GetFolderPath("Desktop")
 Remove-Item -Path "C:\Users\Public\Desktop\Boxstarter Shell.lnk"
 Remove-Item -Path C:\Temp\ -Recurse -Force
+
+# Configure folder view settings:
+$key = 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced'
+
+# hide protected operating system files (recommended) [uncheck]
+Set-ItemProperty $key Hidden 1
+# hide extensions for known file types [uncheck]
+Set-ItemProperty $key HideFileExt 0
+# show hidden files, folders, and drives [check]
+Set-ItemProperty $key ShowSuperHidden 1
+# hide empty drives [uncheck]
+Set-ItemProperty $key hidedriveswithnomedia 0
+# hide folder merge conflicts [uncheck]
+Set-ItemProperty $key hidemergeconflicts 0
+# Small taskbar items
+Set-ItemProperty $key TaskbarSmallIcons 1
+
+$key2 = 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\CabinetState'
+
+# Diplay full path in address bar [check]
+Set-ItemProperty $key2 FullPath 1
+
+$key3 = 'HKCU:\Software\Microsoft\Windows\Shell\Bags\1\Desktop'
+
+# Smaller desktop items
+Set-ItemProperty $key3 IconSize 23
+# Autorrange desktop items
+Set-ItemProperty $key3 FFlags -Value 0x40200221 -Type DWord
+
+# Restart explorer to kick in these key changes
+Stop-Process -processname explorer
+
+# Set language to English-Ireland
+Set-WinUserLanguageList -LanguageList en-IE -Force
+
+# Create a batch file to set the current shell to remind you that it has Admin privs
+$adminLookPath = "C:\windows\System32\adminLook.bat"
+if(![System.IO.File]::Exists($adminLookPath)){
+    $(
+        Write-Output '@echo off'
+        Write-Output 'color 4b'
+        Write-Output 'prompt $Q$Q$SADMIN$S$Q$Q$S$P$S$_$$$$$S'
+        Write-Output 'title ##########  ADMIN PROMPT  ##########'
+     ) | out-file -Encoding ascii -Append $adminLookPath
+}
+
+# batch file to quickly reboot the host
+$rebootPath = ([Environment]::GetFolderPath("Desktop") + "\reboot.bat") 
+if(![System.IO.File]::Exists($rebootPath)){
+	$(
+    Write-Output '@echo off'
+	Write-Output 'shutdown -r -t 0'
+	)| out-file -Encoding ascii -Append $rebootPath
+}
