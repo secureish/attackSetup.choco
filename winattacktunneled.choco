@@ -59,6 +59,7 @@ git clone https://github.com/GhostPack/SafetyKatz.git C:\tools\SafetyKatz
 git clone https://github.com/Flangvik/BetterSafetyKatz.git C:\tools\BetterSafetyKatz
 git clone https://github.com/rasta-mouse/AmsiScanBufferBypass.git C:\tools\AmsiScanBufferBypass
 git clone https://github.com/FatRodzianko/SharpBypassUAC.git C:\tools\SharpBypassUAC
+git clone https://github.com/phra/PEzor.git C:\tools\PEzor
 
 # IE first run
 New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Internet Explorer"
