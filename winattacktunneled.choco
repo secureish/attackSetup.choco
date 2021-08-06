@@ -24,6 +24,7 @@ choco install sysinternals --params "/InstallDir:C:\tools\sysinternals"
 choco install vscode
 choco install processhacker
 choco install apimonitor
+choco install nano
 
 cinst wireshark
 cinst regshot
