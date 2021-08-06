@@ -1,7 +1,13 @@
-New-VM -Name DC -MemoryStartupBytes 512MB -Path D:\ws2012.local
+$vmname
+$vmpath = "C:\VMs\"+$vmname
+$hddath = $vmpath+"hdds\"
+$isospath = "C:\VMs\isos\"
+$isoname = "windows10x64.iso"
+
+New-VM -Name $vmname -MemoryStartupBytes 512MB -Path $vmpath
 New-VHD -Path D:\ws2012.localDCDC.vhdx -SizeBytes 60GB -Dynamic
-Add-VMHardDiskDrive -VMName DC -Path "C:\ws2012.localDCDC.vhdx" 
-Set-VMDvdDrive -VMName DC -ControllerNumber 1 -Path "<path to ISO>"
-Set-VMMemory -VMName DC -DynamicMemoryEnabled $true -StartupBytes 512MB -MinimumByte 512
-Start-VM –Name DC
-Get-VM DC
+Add-VMHardDiskDrive -VMName $vmname -Path $hddpath+$vmname+".vhdx" 
+Set-VMDvdDrive -VMName $vmname -ControllerNumber 1 -Path $isospath+$isoname
+Set-VMMemory -VMName $vmname -DynamicMemoryEnabled $true -StartupBytes 512MB -MinimumByte 512
+Start-VM –Name $vmname
+Get-VM $vmname
