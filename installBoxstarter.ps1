@@ -3,3 +3,4 @@ Set-ExecutionPolicy Bypass -Scope Process -Force
 iex ((New-Object System.Net.WebClient).DownloadString('https://boxstarter.org/bootstrapper.ps1'))
 Get-Boxstarter -Force
 choco install git
+choco install nano
