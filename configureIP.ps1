@@ -4,6 +4,8 @@ $Gateway = "172.17.2.1"
 $Dns = "172.17.2.1"
 $Dns2 = "8.8.4.4"
 $IPType = "IPv4"
+$hostname = "somename"
+
 # Retrieve the network adapter that you want to configure
 $adapter = Get-NetAdapter | ? {$_.Status -eq "up"}
 # Remove any existing IP, gateway from our ipv4 adapter
@@ -21,3 +23,6 @@ $adapter | New-NetIPAddress `
  -DefaultGateway $Gateway
 # Configure the DNS client server IP addresses
 $adapter | Set-DnsClientServerAddress -ServerAddresses ($Dns,$Dns2)
+
+Write-Host "Remaming to"$hostname " ... but you must restart to kick that in."
+Rename-Host -NewName $hostname
