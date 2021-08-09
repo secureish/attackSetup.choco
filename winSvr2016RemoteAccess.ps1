@@ -26,9 +26,6 @@ Set-Service sshd -StartupType Automatic
 Set-Service ssh-agent -StartupType Automatic
 
 # Add line to sshd_config to add powershell subsystem
-Add-Content "$env:PROGRAMDATA\SSH\sshd_config" "Subsystem\tpowershell\t'C:\Program Files\PowerShell\7\pwsh.exe' -sshs -NoLogo -NoProfile"
-
-# Add line to sshd_config to add powershell subsystem
 $fileName = "$env:PROGRAMDATA\SSH\sshd_config"
 (Get-Content $fileName) |
    Foreach-Object {
