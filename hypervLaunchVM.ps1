@@ -2,7 +2,7 @@ $vmname = "cli1"
 $vmpath = "C:\VMs\"+$vmname+"\"
 $hddpath = $vmpath+"hdds\"
 $isospath = "C:\VMs\isos\"
-$isoname = "Windows_Server_2016_Datacenter_EVAL_en-us_14393_refresh.ISO"
+$isoname = "19043.928.210409-1212.21h1_release_svc_refresh_CLIENTENTERPRISEEVAL_OEMRET_x64FRE_en-gb.iso"
 $vhdpath = $hddpath+$vmname+".vhdx"
 
 New-VM -Name $vmname -MemoryStartupBytes 512MB -Path $vmpath
