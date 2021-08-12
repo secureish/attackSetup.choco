@@ -25,7 +25,7 @@ $adapter | New-NetIPAddress `
 $adapter | Set-DnsClientServerAddress -ServerAddresses ($Dns,$Dns2)
 
 Write-Host "Remaming to"$hostname " ... but you must restart to kick that in."
-Rename-Host -NewName $hostname
+Rename-Computer -NewName $hostname
 
 
 
