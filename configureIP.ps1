@@ -29,7 +29,7 @@ Rename-Computer -NewName $hostname
 
 
 
-$IP = "192.168.152.101"
+$IP = "192.168.152.99"
 $MaskBits = 24 # This means subnet mask = 255.255.255.0
 $Gateway = "192.168.152.1"
 $IPType = "IPv4"
