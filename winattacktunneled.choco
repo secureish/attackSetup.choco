@@ -68,6 +68,8 @@ git clone https://github.com/rasta-mouse/AmsiScanBufferBypass.git C:\tools\AmsiS
 git clone https://github.com/FatRodzianko/SharpBypassUAC.git C:\tools\SharpBypassUAC
 git clone https://github.com/phra/PEzor.git C:\tools\PEzor
 
+git clone https://github.com/Cybereason/siofra.git c:\tools\siofra
+
 # IE first run
 New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Internet Explorer"
 New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Internet Explorer\Main"
