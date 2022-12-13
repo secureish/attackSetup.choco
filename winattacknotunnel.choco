@@ -1,0 +1,169 @@
+New-Item -Path C:\ -Name Temp -ItemType Directory -ErrorAction SilentlyContinue
+New-Item -Path C:\ -Name payloads -ItemType Directory -ErrorAction SilentlyContinue
+
+$env:TEMP = "C:\Temp"
+$env:TMP = "C:\Temp"
+
+# Defender
+$Downloads = Get-ItemPropertyValue 'HKCU:\software\microsoft\windows\currentversion\explorer\shell folders\' -Name '{374DE290-123F-4565-9164-39C4925E467B}'
+Add-MpPreference -ExclusionPath $Downloads
+Add-MpPreference -ExclusionPath "C:\payloads\"
+Add-MpPreference -ExclusionPath "C:\tools\"
+Set-MpPreference -MAPSReporting Disabled
+Set-MpPreference -SubmitSamplesConsent NeverSend
+
+# Packages
+choco feature enable -n allowGlobalConfirmation
+choco install 7zip
+choco install git
+choco install googlechrome --ignore-checksums
+choco install heidisql --version=10.2.0.559900
+choco install openjdk11
+choco install putty
+choco install sysinternals --params "/InstallDir:C:\tools\sysinternals"
+choco install vscode
+choco install processhacker
+choco install apimonitor
+choco install nano 
+
+cinst wireshark
+cinst regshot
+cinst -ignore-checksum registrychangesview
+cinst git
+cinst sqlitebrowser
+
+# GitHub
+Invoke-WebRequest -Uri https://github.com/dnSpy/dnSpy/releases/latest/download/dnSpy-netframework.zip -OutFile "$env:TEMP\dnSpy-netframework.zip"
+Expand-Archive -Path "$env:TEMP\dnSpy-netframework.zip" -DestinationPath C:\tools\dnSpy
+
+git clone https://github.com/BloodHoundAD/SharpHound3.git C:\tools\SharpHound3
+git clone https://github.com/dafthack/MailSniper.git C:\tools\MailSniper
+git clone https://github.com/decoder-it/juicy-potato.git C:\tools\juicy-potato
+git clone https://github.com/djhohnstein/SharpChrome.git C:\tools\SharpChrome
+git clone https://github.com/FortyNorthSecurity/Egress-Assess.git C:\tools\Egress-Assess
+git clone https://github.com/FSecureLABS/SharpGPOAbuse.git C:\tools\SharpGPOAbuse
+git clone https://github.com/gentilkiwi/mimikatz.git C:\tools\mimikatz
+git clone https://github.com/GhostPack/Seatbelt.git C:\tools\Seatbelt
+git clone https://github.com/HarmJ0y/DAMP.git C:\tools\DAMP
+git clone https://github.com/hfiref0x/UACME.git C:\tools\UACME
+git clone https://github.com/leechristensen/SpoolSample.git C:\tools\SpoolSample
+git clone https://github.com/NetSPI/PowerUpSQL.git C:\tools\PowerUpSQL
+git clone https://github.com/p3nt4/PowerShdll.git C:\tools\PowerShdll
+git clone https://github.com/PowerShellMafia/PowerSploit.git C:\tools\PowerSploit
+git clone https://github.com/rasta-mouse/MiscTools.git C:\tools\MiscTools
+git clone https://github.com/rasta-mouse/Sherlock.git C:\tools\Sherlock
+git clone https://github.com/rasta-mouse/Watson.git C:\tools\Watson
+git clone https://github.com/tevora-threat/SharpView.git C:\tools\SharpView
+git clone https://github.com/TheWover/donut.git C:\tools\donut
+git clone https://github.com/ZeroPointSecurity/PhishingTemplates.git C:\tools\PhishingTemplates
+
+git clone https://github.com/rasta-mouse/ThreatCheck.git C:\tools\ThreatCheck
+git clone https://github.com/optiv/ScareCrow.git C:\tools\ScareCrow
+git clone https://github.com/GhostPack/SharpWMI.git C:\tools\SharpWMI
+git clone https://github.com/GhostPack/Rubeus.git C:\tools\Rubeus
+git clone https://github.com/PowerShell/GPRegistryPolicy.git C:\tools\GPRegistryPolicy
+git clone https://github.com/GhostPack/SafetyKatz.git C:\tools\SafetyKatz
+git clone https://github.com/Flangvik/BetterSafetyKatz.git C:\tools\BetterSafetyKatz
+git clone https://github.com/rasta-mouse/AmsiScanBufferBypass.git C:\tools\AmsiScanBufferBypass
+git clone https://github.com/FatRodzianko/SharpBypassUAC.git C:\tools\SharpBypassUAC
+git clone https://github.com/phra/PEzor.git C:\tools\PEzor
+
+git clone https://github.com/Cybereason/siofra.git c:\tools\siofra
+
+# IE first run
+New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Internet Explorer"
+New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Internet Explorer\Main"
+New-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Internet Explorer\Main" -Name DisableFirstRunCustomize -Value 1
+
+# BloodHound
+Invoke-WebRequest -Uri 'https://github.com/BloodHoundAD/BloodHound/releases/latest/download/BloodHound-win32-x64.zip' -OutFile "$env:TEMP\BloodHound.zip"
+Expand-Archive -Path "$env:TEMP\BloodHound.zip" -DestinationPath C:\tools\
+Rename-Item -Path C:\tools\BloodHound-win32-x64\ -NewName BloodHound
+Invoke-WebRequest -Uri 'https://neo4j.com/artifact.php?name=neo4j-community-4.0.0-windows.zip' -OutFile "$env:TEMP\neo4j.zip"
+Expand-Archive -Path "$env:TEMP\neo4j.zip" -DestinationPath C:\tools\
+Rename-Item -Path C:\tools\neo4j-community-4.0.0\ -NewName Neo4j
+
+## Visual Studio
+Invoke-WebRequest -Uri 'https://visualstudioclient.gallerycdn.vsassets.io/extensions/visualstudioclient/microsoftvisualstudio2017installerprojects/1.0.0/1620063166533/InstallerProjects.vsix' -OutFile "$Downloads\InstallerProjects.vsix"
+Invoke-WebRequest -Uri 'https://download.microsoft.com/download/E/E/D/EEDF18A8-4AED-4CE0-BEBE-70A83094FC5A/BuildTools_Full.exe' -OutFile "$Downloads\BuildTools.exe"
+Enable-WindowsOptionalFeature -FeatureName NetFx3 -Online
+
+# GPRegistryPolicy
+Install-Module GPRegistryPolicy -Force
+
+# Networking
+## VMware
+# netsh interface ip set address "Ethernet1" static 192.168.152.101 255.255.255.0 192.168.152.100
+
+## VBox (and Hyper-V)
+# netsh interface ip set address "Ethernet 2" static 192.168.152.101 255.255.255.0 192.168.152.100
+
+# route add -p 10.8.0.0 mask 255.255.255.0 192.168.152.100
+# route add -p 10.9.0.0 mask 255.255.255.0 192.168.152.100
+# route add -p 10.10.110.0 mask 255.255.255.0 192.168.152.100
+# Add-Content C:\Windows\System32\drivers\etc\hosts "192.168.152.100 kali"
+
+# UI
+Import-Module "$env:ChocolateyInstall\helpers\chocolateyInstaller.psm1" -Force
+Set-WindowsExplorerOptions -EnableShowFileExtensions -EnableShowFullPathInTitleBar -EnableExpandToOpenFolder -EnableShowRibbon
+Install-ChocolateyShortcut -shortcutFilePath "C:\Users\Public\Desktop\tools.lnk" -targetPath C:\tools\
+Install-ChocolateyShortcut -shortcutFilePath "C:\Users\Public\Desktop\Neo4j.lnk" -targetPath "C:\tools\Neo4j\bin\neo4j.bat" -arguments "console" -runAsAdmin
+
+# Misc
+$DesktopPath = [Environment]::GetFolderPath("Desktop")
+Remove-Item -Path "C:\Users\Public\Desktop\Boxstarter Shell.lnk"
+Remove-Item -Path C:\Temp\ -Recurse -Force
+
+# Configure folder view settings:
+$key = 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced'
+
+# hide protected operating system files (recommended) [uncheck]
+Set-ItemProperty $key Hidden 1
+# hide extensions for known file types [uncheck]
+Set-ItemProperty $key HideFileExt 0
+# show hidden files, folders, and drives [check]
+Set-ItemProperty $key ShowSuperHidden 1
+# hide empty drives [uncheck]
+Set-ItemProperty $key hidedriveswithnomedia 0
+# hide folder merge conflicts [uncheck]
+Set-ItemProperty $key hidemergeconflicts 0
+# Small taskbar items
+Set-ItemProperty $key TaskbarSmallIcons 1
+
+$key2 = 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\CabinetState'
+
+# Diplay full path in address bar [check]
+Set-ItemProperty $key2 FullPath 1
+
+$key3 = 'HKCU:\Software\Microsoft\Windows\Shell\Bags\1\Desktop'
+
+# Smaller desktop items
+Set-ItemProperty $key3 IconSize 23
+# Autorrange desktop items
+Set-ItemProperty $key3 FFlags -Value 0x40200221 -Type DWord
+
+# Restart explorer to kick in these key changes
+Stop-Process -processname explorer
+
+# Set language to English-Ireland
+Set-WinUserLanguageList -LanguageList en-IE -Force
+
+# Create a batch file to set the current shell to remind you that it has Admin privs
+$adminLookPath = "C:\windows\System32\adminLook.bat"
+if(![System.IO.File]::Exists($adminLookPath)){
+    $(
+        Write-Output '@echo off'
+        Write-Output 'color 4b'
+        Write-Output 'prompt $Q$Q$SADMIN$S$Q$Q$S$P$S$_$$$$$S'
+        Write-Output 'title ##########  ADMIN PROMPT  ##########'
+     ) | out-file -Encoding ascii -Append $adminLookPath
+}
+
+# batch file to quickly reboot the host
+$rebootPath = ([Environment]::GetFolderPath("Desktop") + "\reboot.bat") 
+if(![System.IO.File]::Exists($rebootPath)){
+	$(
+    Write-Output '@echo off'
+	Write-Output 'shutdown -r -t 0'
+	)| out-file -Encoding ascii -Append $rebootPath
+}
