@@ -69,6 +69,7 @@ git clone https://github.com/FatRodzianko/SharpBypassUAC.git C:\tools\SharpBypas
 git clone https://github.com/phra/PEzor.git C:\tools\PEzor
 
 git clone https://github.com/Cybereason/siofra.git c:\tools\siofra
+git clone https://github.com/monoxgas/Koppeling.git c:\tools\koppeling
 
 # IE first run
 New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Internet Explorer"
