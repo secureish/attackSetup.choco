@@ -70,6 +70,7 @@ git clone https://github.com/phra/PEzor.git C:\tools\PEzor
 
 git clone https://github.com/Cybereason/siofra.git c:\tools\siofra
 git clone https://github.com/monoxgas/Koppeling.git c:\tools\koppeling
+git clone https://github.com/Flangvik/DLLSideloader.git c:\tools\DLLSideloader
 
 # IE first run
 New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Internet Explorer"
