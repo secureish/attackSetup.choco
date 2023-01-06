@@ -25,6 +25,7 @@ choco install vscode
 choco install processhacker
 choco install apimonitor
 choco install nano 
+choco install dllexp
 
 cinst wireshark
 cinst regshot
